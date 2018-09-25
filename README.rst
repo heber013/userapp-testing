@@ -15,12 +15,13 @@ in docker-compose.yaml file
 Running tests using docker-compose
 ==================================
 1- Install docker-compose in your system, then:
-
+If you are in a Linux machine, you might want to follow these steps in order to manage Docker as a non-root user:
+https://docs.docker.com/install/linux/linux-postinstall/
 ::
 
   $ git clone https://github.com/heber013/userapp-testing
   $ cd userapp-testing
-  $ sudo docker-compose up --build
+  $ docker-compose up --build
 
 By default it will run all tests: the UI and rest service ones.
 To check UI tests results: tests/ui/docker_outputs
