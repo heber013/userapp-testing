@@ -1,0 +1,48 @@
+<form action="/adduser" method="POST">
+  <h2>Add a new user:</h2>
+  Username:<input id="username" type="text" name="username" required></input>
+  Email: <input id="emailaddress" type="email" name="emailaddress" required></input>
+  Birthdate: <input id="birthdate" type="date" name="birthdate" onfocus="setMaxDateToday()" required></input>
+  Address: <input id="address" type="text" name="address" required></input>
+  <input id="adduserbtn" type="submit" value="Add user"></input>
+</form>
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+<h2>Users list:</h2>
+<table id="userlist">
+  <tr>
+  <td> Username </td>
+  <td> Email </td>
+  <td> Birthdate </td>
+  <td> Address </td>
+  </tr>
+  {% for item in items %}
+  <tr>
+  <td> {{ item.username }} </td>
+  <td> {{ item.emailaddress }} </td>
+  <td> {{ item.birthdate }} </td>
+  <td> {{ item.address }} </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<script>
+function setMaxDateToday(){
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+ if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+
+today = yyyy+'-'+mm+'-'+dd;
+document.getElementById("birthdate").max = today;
+}
+</script>

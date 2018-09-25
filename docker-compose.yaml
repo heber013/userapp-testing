@@ -1,0 +1,81 @@
+version: "3"
+services:
+  web:
+    container_name: webapp
+    build: app/.
+    ports:
+    - "5000:5000"
+    links:
+    - mongodb
+    environment:
+    - DB_PORT_27017_TCP_ADDR=mongodb
+    depends_on:
+    - mongodb
+    networks:
+      behavetestsnw: {}
+  mongodb:
+    image: mongo:3.0.2
+    container_name: mongodb
+    ports:
+    - 27017:27017
+    networks:
+      behavetestsnw: {}
+  selenium_hub:
+    image: selenium/hub
+    container_name: selenium_hub
+    ports:
+    - "4444:4444"
+    networks:
+      behavetestsnw: {}
+  chromenode:
+    image: selenium/node-chrome
+    depends_on:
+    - selenium_hub
+    environment:
+    - HUB_PORT_4444_TCP_ADDR=selenium_hub
+    - HUB_PORT_4444_TCP_PORT=4444
+    networks:
+      behavetestsnw: {}
+    ports:
+      - 5555
+  firefoxnode:
+    image: selenium/node-firefox
+    depends_on:
+    - selenium_hub
+    environment:
+    - HUB_PORT_4444_TCP_ADDR=selenium_hub
+    - HUB_PORT_4444_TCP_PORT=4444
+    networks:
+      behavetestsnw: {}
+    ports:
+      - 5554
+  apptests:
+    build: tests/ui/.
+    command: -b chrome -g http://selenium_hub:4444/wd/hub --junit --wait_for chromenode:5555
+    depends_on:
+    - selenium_hub
+    - chromenode
+    - firefoxnode
+    - web
+    environment:
+      - WEB_ADDRESS=http://web:5000
+    networks:
+      behavetestsnw: {}
+    volumes:
+    - ./tests/ui/docker_outputs:/apptests/outputs
+  apitests:
+    build: tests/api/.
+    command: pytest --junitxml output/apitests-results.xml -p no:cacheprovider
+    depends_on:
+      - web
+      - mongodb
+    networks:
+      behavetestsnw: {}
+    environment:
+      - DB_PORT_27017_TCP_ADDR=mongodb
+      - API_ADDRESS=http://web:5000
+    volumes:
+      - ./tests/api/docker_outputs:/api_tests/output
+networks:
+  behavetestsnw:
+    driver: bridge
