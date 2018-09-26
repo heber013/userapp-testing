@@ -1,0 +1,32 @@
+{
+  "uservalid1": {
+    "username": "usertest",
+    "emailaddress": "usertest@dwdwd.com",
+    "birthdate": "2014-12-31",
+    "address": "street 123123"
+  },
+  "uservalid2": {
+    "username": "usertest2",
+    "emailaddress": "usertest2@dwdwd.com",
+    "birthdate": "2005-03-05",
+    "address": "myaddress 0123"
+  },
+  "user_special_characters": {
+    "username": "user$%&",
+    "emailaddress": "user$%&@dwdwd.com",
+    "birthdate": "2005-03-05",
+    "address": "myaddress 0123"
+  },
+  "user_invalid_email": {
+    "username": "theuser",
+    "emailaddress": "theuserinvalidemail",
+    "birthdate": "2015-03-05",
+    "address": "theaddress 0123"
+  },
+  "user_invalid_birthdate": {
+    "username": "anotheruser",
+    "emailaddress": "anotheruser@hotmail.com",
+    "birthdate": "9000-03-05",
+    "address": "myaddress 0123"
+  }
+}
