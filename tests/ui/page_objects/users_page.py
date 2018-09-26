@@ -1,3 +1,4 @@
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from page_objects.base_page import BasePage
@@ -21,7 +22,14 @@ class UsersPage(BasePage):
         return self
 
     def enter_birthday(self, birthday):
-        self.find_element(_birthday).send_keys(birthday)
+        _birthday_field = self.find_element(_birthday)
+        _birthday_field.send_keys(birthday)
+        if not _birthday_field.get_attribute('value'):
+            actions = ActionChains(self.driver)
+            actions.move_to_element(_birthday_field)
+            actions.click(on_element=_birthday_field)
+            actions.send_keys(birthday)
+            actions.perform()
         return self
 
     def enter_address(self, address):

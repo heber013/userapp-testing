@@ -2,3 +2,4 @@
 .idea/
 tests/api/docker_outputs/
 tests/ui/docker_outputs/
+tests/ui/outputs
